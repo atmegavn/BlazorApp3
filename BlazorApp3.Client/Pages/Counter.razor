@@ -1,0 +1,43 @@
+﻿@page "/counter"
+@rendermode InteractiveServer
+
+<div class="max-w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
+    <h1 class="text-2xl font-semibold mb-6">Data Capture Form</h1>
+
+    <div class="mb-4">
+        <label for="name" class="block text-gray-700 font-bold mb-2">Name:</label>
+        <input id="name" type="text" class="block w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" @bind="formData.Name" />
+    </div>
+
+    <div class="mb-4">
+        <label for="email" class="block text-gray-700 font-bold mb-2">Email:</label>
+        <input id="email" type="email" class="block w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" @bind="formData.Email" />
+    </div>
+
+    <div class="mb-4">
+        <label for="message" class="block text-gray-700 font-bold mb-2">Message:</label>
+        <textarea id="message" rows="4" class="block w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" @bind="formData.Message"></textarea>
+    </div>
+
+    <button class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-lg" @onclick="SubmitForm">Submit</button>
+</div>
+
+@code {
+    private FormData formData = new FormData();
+
+    private void SubmitForm()
+    {
+        // You can perform further operations here, such as sending data to a server
+        // For now, let's just display the captured data in the console
+        Console.WriteLine($"Name: {formData.Name}");
+        Console.WriteLine($"Email: {formData.Email}");
+        Console.WriteLine($"Message: {formData.Message}");
+    }
+
+    public class FormData
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Message { get; set; }
+    }
+}

@@ -1,0 +1,60 @@
+﻿@page "/chat"
+@rendermode InteractiveServer
+
+@using System
+@using System.Collections.Generic
+
+<div class="bg-white rounded-lg shadow-lg w-96">
+    <!-- Chat header -->
+    <div class="bg-gray-200 px-4 py-3 flex justify-between items-center border-b border-gray-300">
+        <span class="font-semibold text-gray-700">Chat</span>
+        <button class="text-gray-600 focus:outline-none">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Chat messages -->
+    <div class="px-4 py-4 max-h-60 overflow-y-auto">
+        <div class="flex flex-col gap-2">
+            @foreach (var message in messages)
+            {
+                <div class="@(message.Sender == "You" ? "flex flex-col items-end" : "flex flex-col items-start")">
+                    <div class="@(message.Sender == "You" ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-700") py-2 px-4 rounded-lg max-w-md">@message.Content</div>
+                    <span class="text-xs text-gray-500 mt-1">@message.Time.ToString("h:mm tt")</span>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Chat input -->
+    <div class="bg-gray-200 px-4 py-3 border-t border-gray-300">
+        <div class="flex">
+            <input type="text" @bind="userInput" placeholder="Type your message here..." class="w-full bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 border border-gray-300 rounded-lg px-3 py-1">
+            <button @onclick="SendMessage" class="bg-blue-500 text-white px-4 ml-2 rounded-lg">Send</button>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private string userInput;
+    private List<Message> messages = new List<Message>();
+
+    void SendMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(userInput))
+        {
+            messages.Add(new Message { Content = userInput, Sender = "You", Time = DateTime.Now });
+            userInput = string.Empty;
+        }
+    }
+
+    public class Message
+    {
+        public string Content { get; set; }
+        public string Sender { get; set; }
+        public DateTime Time { get; set; }
+    }
+}
